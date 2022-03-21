@@ -1,0 +1,21 @@
+{
+  "locals": {
+    "title": "Bare minimum wintersmith site"
+  },
+  "stylus": {
+    "compress": true
+  },
+  "require": {
+    "moment": "moment"
+  },
+  "plugins": [
+    "./plugins/nunjucks.coffee",
+    "./plugins/json.coffee",
+    "./plugins/blog.coffee",
+    "./node_modules/wintersmith-stylus",
+    "./node_modules/wintersmith-coffee"
+  ],
+  "ignore": [
+    "**/.DS_Store"
+  ]
+}

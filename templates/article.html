@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    {{ page.title + " - {% trans %}BibViz Project Blog{% endtrans %}" }}
+{% endblock %}
+
+{% block content %}
+    <div class="left article" style="width: 160px;">
+        <h2>{% trans %}Archive{% endtrans %}</h2>
+        <h3>2013</h3>
+        {% for article in env.getArticles(contents) %}
+            <p>
+                <a href="{{ article.url }}">{{ article.title }}</a>
+            </p>
+        {% endfor %}
+        <a id="feedButton" href="/atom.xml"><i class="icon-rss-sign"></i> Subscribe</a>
+    </div>
+    <div class="left article" style="width: 800px" itemprop="articleBody">
+        <div class="right" itemprop="datePublished">{{ moment(page.metadata.date).format('D MMMM YYYY') }}</div>
+        {% md page.markdown %}
+        <div class="right">
+            {% trans %}Posted by {{ page.metadata.author }}{% endtrans %}
+            <br/><br/>
+        </div>
+    </div>
+    <div class="left" style="width: 120px; margin-left: 20px;">
+        <h2>{% trans %}Books{% endtrans %}</h2>
+        <div class="book-panel">
+            {% import 'amazon.html' as amazon %}
+            {% set books = page.metadata.books and page.metadata.books or [] %}
+            {{ amazon.books(books) }}
+            {% if page.metadata.booksReplace != true %}
+                {{ amazon.books(env.randomAdBooks()) }}
+            {% endif %}
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div style="width: 800px; margin-left: 160px;">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'bibviz'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {% include 'addthis.html' %}
+{% endblock %}
